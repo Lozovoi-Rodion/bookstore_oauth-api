@@ -1,6 +1,8 @@
 package access_token
 
-import "time"
+import (
+	"time"
+)
 
 const (
 	expirationTime = 24
@@ -13,7 +15,7 @@ type AccessToken struct {
 	Expires     int64  `json:"expires"`
 }
 
-func GetNewAcceessToken() *AccessToken {
+func GetNewAccessToken() *AccessToken {
 	return &AccessToken{
 		Expires: time.Now().UTC().Add(expirationTime * time.Hour).Unix(),
 	}
