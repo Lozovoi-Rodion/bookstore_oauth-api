@@ -64,5 +64,5 @@ func (h *accessTokenHandler) Update(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, at)
+	c.JSON(http.StatusOK, at)
 }

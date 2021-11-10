@@ -50,5 +50,10 @@ func (s *service) UpdateExpirationTime(token AccessToken) *errors.RestErr {
 		return err
 	}
 
+	_, err := s.GetById(token.AccessToken)
+	if err != nil {
+		return err
+	}
+
 	return s.repository.UpdateExpirationTime(token)
 }
