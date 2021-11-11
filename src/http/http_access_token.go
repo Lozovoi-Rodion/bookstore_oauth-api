@@ -59,6 +59,7 @@ func (h *accessTokenHandler) Update(c *gin.Context) {
 		return
 	}
 
+	at.AccessToken = strings.TrimSpace(c.Param("access_token_id"))
 	if err := h.service.UpdateExpirationTime(at); err != nil {
 		c.JSON(err.Status, err)
 		return
