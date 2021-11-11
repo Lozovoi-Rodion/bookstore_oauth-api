@@ -19,7 +19,7 @@ func NewRepository() DbRepository {
 
 type DbRepository interface {
 	GetById(string) (*access_token.AccessToken, *errors.RestErr)
-	Create(access_token.AccessToken) *errors.RestErr
+	Create(request access_token.AccessToken) *errors.RestErr
 	UpdateExpirationTime(access_token.AccessToken) *errors.RestErr
 }
 
@@ -27,7 +27,6 @@ type dbRepository struct {
 }
 
 func (r *dbRepository) GetById(id string) (*access_token.AccessToken, *errors.RestErr) {
-
 	var result access_token.AccessToken
 	if err := cassandra.GetSession().Query(queryGetAccessToken, id).Scan(
 		&result.AccessToken,

@@ -1,8 +1,9 @@
 package http
 
 import (
-	"github.com/Lozovoi-Rodion/bookstore_oauth-api/src/domain/access_token"
+	atDomain "github.com/Lozovoi-Rodion/bookstore_oauth-api/src/domain/access_token"
 	"github.com/Lozovoi-Rodion/bookstore_oauth-api/src/domain/utils/errors"
+	"github.com/Lozovoi-Rodion/bookstore_oauth-api/src/services/access_token"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -36,14 +37,15 @@ func (h *accessTokenHandler) GetById(c *gin.Context) {
 }
 
 func (h *accessTokenHandler) Create(c *gin.Context) {
-	var at access_token.AccessToken
-	if err := c.ShouldBindJSON(&at); err != nil {
+	var request atDomain.AccessTokenRequest
+	if err := c.ShouldBindJSON(&request); err != nil {
 		restErr := errors.NewBadRequestError("invalid json body")
 		c.JSON(restErr.Status, restErr)
 		return
 	}
 
-	if err := h.service.Create(at); err != nil {
+	at, err := h.service.Create(request)
+	if err != nil {
 		c.JSON(err.Status, err)
 		return
 	}
@@ -52,7 +54,7 @@ func (h *accessTokenHandler) Create(c *gin.Context) {
 }
 
 func (h *accessTokenHandler) Update(c *gin.Context) {
-	var at access_token.AccessToken
+	var at atDomain.AccessToken
 	if err := c.ShouldBindJSON(&at); err != nil {
 		restErr := errors.NewBadRequestError("invalid json body")
 		c.JSON(restErr.Status, restErr)
